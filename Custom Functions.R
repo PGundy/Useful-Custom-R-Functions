@@ -1,0 +1,67 @@
+
+# Custom Functions --------------------------------------------------------
+
+###### Ifelse Fix to Preserve Class
+ifelseC <- function(cond, yes, no) {
+  structure(ifelse(cond, yes, no), class = class(yes))
+} # fix issue where ifelse usually strips classes
+print("loaded: ifelseC")
+
+
+###### Fill NA function that respects date class
+fillNA <- function(x) { # repeats the last non NA value. Keeps leading NA
+  #NOTE -- tidyr has the fill command which is faster, but this keeps date class
+  ind <- which(!is.na(x)) # get positions of nonmissing values
+  if (is.na(x[1])) { # if it begins with a missing, add the
+    ind <- c(1, ind) # first position to the indices
+  }
+  rep(x[ind], times = diff( # repeat the values at these indices
+    c(ind, length(x) + 1) # diffing the indices + length yields how often
+  ))
+}
+print("loaded: fillNA")
+
+
+###### Combination of table(is.na(x))
+tableNA <- function(x) {
+  table(is.na(x)) #observe the number of NAs
+}
+print("loaded: tableNA")
+
+
+###### A unique in unique list table summary of table(unique(x) %in% unique(y))
+TableUniqueInUnique <- function(x, y) {
+  table(unique(x) %in% unique(y))
+}
+print("loaded: TableUniqueInUnique")
+
+
+###### A percentage version of table(x)
+tablePerc <- function(x){
+  round(prop.table(table(x))*100, 2) #A % breakdown of a table
+}
+print("loaded: tablePerc")
+
+
+###### inverted str_subset - remove anything containing the pattern
+str_subset_inv <- function(vec, pattern) {
+  vec[!stringr::str_detect(vec, pattern)] #simple inverse of str_subset to remove things
+}
+print("loaded: str_subset_inv")
+
+
+
+
+
+
+
+# ************** ----------------------------------------------------------------
+# * Finished Command ----------------------------------------------------------------
+
+
+
+Function.File <- (function() { attr(body(sys.function()), "srcfile")})()$filename
+Function.File
+
+print(paste("All functions loaded from:", Function.File))
+
