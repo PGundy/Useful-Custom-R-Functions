@@ -51,6 +51,18 @@ print("loaded: str_subset_inv")
 
 
 
+###### fwrite.DF.to.csv.as.char - Ungroup object, everything as strings, and exports object to file
+fwrite.DF.to.csv.as.char <- function(DF, file.path.and.file.name){
+  DF %>% dplyr::ungroup() %>%
+    dplyr::mutate_all(as.character) %>% 
+    data.table::fwrite(., file.path.and.file.name)
+  
+  print(paste( paste0("[",deparse(quote(DF)), "]"),           #Data object
+               "has been saved here:",                        # 
+               paste0("[", file.path.and.file.name, "]") ))   #file.path.and.file.name
+}
+print("loaded: fwrite.DF.to.csv.as.char")
+
 
 
 
