@@ -6,15 +6,17 @@
 
 # Custom Functions --------------------------------------------------------
 
-###### Ifelse Fix to Preserve Class
+###### IfelseC Fix to Preserve Class
 
-###### Fill NA function that respects date class
+###### FillNA - A function that respects date class
 
-###### Combination of table(is.na(x))
+###### TableNA - Combination of table(is.na(x))
 
-###### A unique in unique list table summary of table(unique(x) %in% unique(y))
+###### TableUniqueInUnique - A unique %in% unique list table summary of table(unique(x) %in% unique(y))
 
-###### A percentage version of table(x)
+###### tablePerc - table(x) that displays as percentages
 
-###### inverted str_subset - remove anything containing the pattern
+###### str_subset_inv - remove anything containing the pattern
+
+###### fwrite.DF.to.csv.as.char - ungroup, mutate all to strings, save to csv
 
