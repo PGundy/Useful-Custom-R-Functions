@@ -6,7 +6,7 @@
 
 # Custom Functions ---------------------------------
 
-##### PlotMissingness - Plot the percantage of NAs for all vectors in a data frame
+##### plotMissingness - Plot the percantage of NAs for all vectors in a data frame
 
 ###### IfelseC - Fix to Preserve Class
 
