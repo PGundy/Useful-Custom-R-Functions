@@ -5,10 +5,8 @@
 # PlotMissingness ----------------------------------------------------------------------
 PlotMissingness<- function(df) {
   
-  
   ## For an example of this function's output try using base R data:
   ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% PlotMissingness(.)
-  
   
   if(unique(c("dplyr", "ggplot2", "parallel") %in% installed.packages())!=TRUE) {
     
