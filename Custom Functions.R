@@ -2,11 +2,11 @@
 # Custom Functions --------------------------------------------------------
 
 
-# PlotMissingness ----------------------------------------------------------------------
-PlotMissingness<- function(df) {
+# plotMissingness ----------------------------------------------------------------------
+plotMissingness<- function(df) {
   
   ## For an example of this function's output try using base R data:
-  ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% PlotMissingness(.)
+  ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plotMissingness(.)
   
   if(unique(c("dplyr", "ggplot2", "parallel") %in% installed.packages())!=TRUE) {
     
@@ -41,7 +41,7 @@ PlotMissingness<- function(df) {
       ggplot2::coord_flip()
   }
   } # plots % of missing information in each column
-print("lodaded: plot.missingness")
+print("lodaded: plotMissingness")
 
 
 
