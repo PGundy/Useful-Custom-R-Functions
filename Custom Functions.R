@@ -40,8 +40,11 @@ PlotMissingness<- function(df) {
       ggplot2::geom_text(aes(label=paste0(Percent.of.NAs*100, "%")), hjust=-0.25) +
       ggplot2::coord_flip()
   }
-  } # plots % of missing information in each vector
+  } # plots % of missing information in each column
 print("lodaded: plot.missingness")
+
+
+
 
 
 
