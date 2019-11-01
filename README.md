@@ -6,7 +6,9 @@
 
 # Custom Functions ---------------------------------
 
-###### IfelseC Fix to Preserve Class
+##### PlotMissingness - Plot the percantage of NAs for all vectors in a data frame
+
+###### IfelseC - Fix to Preserve Class
 
 ###### FillNA - A function that respects date class
 
