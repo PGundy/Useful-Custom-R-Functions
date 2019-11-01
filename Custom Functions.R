@@ -1,6 +1,52 @@
 
 # Custom Functions --------------------------------------------------------
 
+
+# plot.missingess ----------------------------------------------------------------------
+plot.missingess<- function(df) {
+  
+  
+  ## For an example of this function's output try using base R data:
+  ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plot.missingess(.)
+  
+  
+  if(unique(c("dplyr", "ggplot2", "parallel") %in% installed.packages())!=TRUE) {
+    
+    warning("Expected packages are not installed. Please the below packges:
+            
+            'dplyr', 'ggplot2', and 'parallel'")
+  }
+  if(!is.data.frame(df)){
+   
+    warning("The object entered is not of class data frame.")
+    
+  }else{
+    df %>%
+      parallel::mclapply(., function(y) sum(is.na(y))/length(y) ) %>% 
+      parallel::mclapply(., round, 4) %>% 
+      as.data.frame() %>% 
+      tidyr::pivot_longer(., cols=names(.),
+                          names_to = "Variable",
+                          values_to = "Percent.of.NAs" ) %>% 
+      dplyr::arrange(desc(Percent.of.NAs)) %>% 
+      ggplot2::ggplot(data=.,
+                      aes(x=reorder(Variable, -Percent.of.NAs), y=Percent.of.NAs,
+                          fill=Percent.of.NAs)) +
+      ggplot2::geom_bar(stat="identity") +
+      ggplot2::scale_fill_gradient2(low='blue', mid='yellow', high='red', 
+                                    midpoint=0.5) +
+      ggplot2::scale_y_continuous("Percent of NAs", 
+                                  breaks=seq(0, 1, 0.2),
+                                  limits = c(0,1.19)) +
+      ggplot2::labs(title="Percentage Data Missingness", x="Variables") +
+      ggplot2::geom_text(aes(label=paste0(Percent.of.NAs*100, "%")), hjust=-0.25) +
+      ggplot2::coord_flip()
+  }
+  } # plots % of missing information in each vector
+print("lodaded: plot.missingness")
+
+
+
 ###### Ifelse Fix to Preserve Class
 ifelseC <- function(cond, yes, no) {
   structure(ifelse(cond, yes, no), class = class(yes))
