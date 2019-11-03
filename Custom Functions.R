@@ -3,22 +3,27 @@
 
 
 # plotMissingness ----------------------------------------------------------------------
-plotMissingness<- function(df) {
+plotMissingness<- function(df, Remove.No.NAs) {
+  
+  ##The Remove.No.NAs==TRUE it removes variables with 0 NAs
+  
   
   ## For an example of this function's output try using base R data:
   ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plotMissingness(.)
   
   if(unique(c("dplyr", "ggplot2", "parallel") %in% installed.packages())!=TRUE) {
-    
     warning("Expected packages are not installed. Please the below packges:
             
             'dplyr', 'ggplot2', and 'parallel'")
   }
   if(!is.data.frame(df)){
-   
-    warning("The object entered is not of class data frame.")
-    
-  }else{
+    warning("The object 'df' is not of class data frame.")
+  }
+  if(missing(Remove.No.NAs)){
+    warning("Remove.No.NAs is not specified as TRUE or FASLE, defaulting to FALSE.")
+    Remove.No.NAs<-FALSE
+  }
+  else{
     df %>%
       parallel::mclapply(., function(y) sum(is.na(y))/length(y) ) %>% 
       parallel::mclapply(., round, 4) %>% 
@@ -27,6 +32,7 @@ plotMissingness<- function(df) {
                           names_to = "Variable",
                           values_to = "Percent.of.NAs" ) %>% 
       dplyr::arrange(desc(Percent.of.NAs)) %>% 
+dplyr::filter(if (Remove.No.NAs==TRUE) Percent.of.NAs>0 else !is.na(Percent.of.NAs)) %>% 
       ggplot2::ggplot(data=.,
                       aes(x=reorder(Variable, -Percent.of.NAs), y=Percent.of.NAs,
                           fill=Percent.of.NAs)) +
