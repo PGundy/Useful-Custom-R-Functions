@@ -3,9 +3,9 @@
 
 
 # plotMissingness ----------------------------------------------------------------------
-plotMissingness<- function(df, Remove.No.NAs) {
+plotMissingness<- function(df, Filter.NAs.Out, Sort.By.Missingness) {
   
-  ##The Remove.No.NAs==TRUE it removes variables with 0 NAs
+  ##The Filter.NAs.Out==TRUE it removes variables with 0 NAs
   
   ## For an example of this function's output try using base R data:
   ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plotMissingness(., FALSE)
@@ -18,10 +18,22 @@ plotMissingness<- function(df, Remove.No.NAs) {
   if(!is.data.frame(df)){
     warning("The object 'df' is not of class data frame.")
   }
-  if(missing(Remove.No.NAs)){
-    warning("Remove.No.NAs is not specified as TRUE or FASLE, defaulting to FALSE.")
+  if(missing(Filter.NAs.Out) & missing(Sort.By.Missingness)){
+    Filter.NAs.Out<-ifelse(missing(Filter.NAs.Out), TRUE, Filter.NAs.Out)
+    Sort.By.Missingness<-ifelse(missing(Sort.By.Missingness), TRUE, Sort.By.Missingness)
+    print("'Filter.NAs.Out' & 'Sort.By.Missingness' has defaulted to TRUE",
+          (Sort.By.Missingness))
   }
-  else{
+  
+  if(missing(Filter.NAs.Out)){
+  Filter.NAs.Out<-ifelse(missing(Filter.NAs.Out), TRUE, Filter.NAs.Out)
+  print("'Filter.NAs.Out' has defaulted to TRUE", (Sort.By.Missingness))
+  }
+  if(missing(Sort.By.Missingness)){
+  Sort.By.Missingness<-ifelse(missing(Sort.By.Missingness), TRUE, Sort.By.Missingness)
+    print("'Sort.By.Missingness' has defaulted to TRUE", (Sort.By.Missingness))
+ }
+
     
     ##TODO: Allow for groups to be passed as facets into this plot
     
@@ -32,11 +44,16 @@ plotMissingness<- function(df, Remove.No.NAs) {
       tidyr::pivot_longer(., cols=names(.),
                           names_to = "Variable",
                           values_to = "Percent.of.NAs" ) %>% 
-      dplyr::arrange(desc(Percent.of.NAs)) %>% 
+      dplyr::mutate(Org.Order=row_number()) %>%
       #This statement is assuming TRUE which drops 0% NA vars or keeps them if FALSE
-      dplyr::filter(if (Remove.No.NAs) Percent.of.NAs>0 else !is.na(Percent.of.NAs)) %>%
+      dplyr::filter(if(Filter.NAs.Out){ Percent.of.NAs>0
+                    }else{ !is.na(Percent.of.NAs)
+                        } ) %>%
       ggplot2::ggplot(data=.,
-                      aes(x=reorder(Variable, -Percent.of.NAs), y=Percent.of.NAs,
+                      aes(if(Sort.By.Missingness){ x=reorder(Variable, -Percent.of.NAs)
+                      }else{ x=reorder(Variable, -Org.Order)
+                          },
+                          y=Percent.of.NAs,
                           fill=Percent.of.NAs)) +
       ggplot2::geom_bar(stat="identity") +
       ggplot2::scale_fill_gradient2(low='blue', mid='yellow', high='red', 
@@ -47,7 +64,6 @@ plotMissingness<- function(df, Remove.No.NAs) {
       ggplot2::labs(title="Data Missingness, Percentage", x="Variables") +
       ggplot2::geom_text(aes(label=paste0(Percent.of.NAs*100, "%")), hjust=-0.25) +
       ggplot2::coord_flip()
-  }
   } # plots % of missing information in each column
 print("lodaded: plotMissingness")
 
