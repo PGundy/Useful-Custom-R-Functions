@@ -44,7 +44,7 @@ plotMissingness<- function(df, Remove.No.NAs) {
       ggplot2::scale_y_continuous("Percent of NAs", 
                                   breaks=seq(0, 1, 0.2),
                                   limits = c(0,1.19)) +
-      ggplot2::labs(title="Percentage Data Missingness", x="Variables") +
+      ggplot2::labs(title="Data Missingness, Percentage", x="Variables") +
       ggplot2::geom_text(aes(label=paste0(Percent.of.NAs*100, "%")), hjust=-0.25) +
       ggplot2::coord_flip()
   }
