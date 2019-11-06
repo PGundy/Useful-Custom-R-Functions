@@ -3,39 +3,37 @@
 
 
 # plotMissingness ----------------------------------------------------------------------
-plotMissingness<- function(df, Filter.NAs.Out, Sort.By.Missingness) {
+plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
   
   ##The Filter.NAs.Out==TRUE it removes variables with 0 NAs
   
   ## For an example of this function's output try using base R data:
   ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plotMissingness(., FALSE)
-  
-  if(unique(c("dplyr", "ggplot2", "parallel") %in% installed.packages())!=TRUE) {
-    warning("Expected packages are not installed. Please the below packges:
-            
-            'dplyr', 'tidyr', 'ggplot2', and 'parallel'")
-  }
-  if(!is.data.frame(df)){
-    warning("The object 'df' is not of class data frame.")
-  }
-  if(missing(Filter.NAs.Out) & missing(Sort.By.Missingness)){
-    Filter.NAs.Out<-ifelse(missing(Filter.NAs.Out), TRUE, Filter.NAs.Out)
-    Sort.By.Missingness<-ifelse(missing(Sort.By.Missingness), TRUE, Sort.By.Missingness)
-    print("'Filter.NAs.Out' & 'Sort.By.Missingness' has defaulted to TRUE",
-          (Sort.By.Missingness))
-  }
-  
-  if(missing(Filter.NAs.Out)){
-  Filter.NAs.Out<-ifelse(missing(Filter.NAs.Out), TRUE, Filter.NAs.Out)
-  print("'Filter.NAs.Out' has defaulted to TRUE", (Sort.By.Missingness))
-  }
-  if(missing(Sort.By.Missingness)){
-  Sort.By.Missingness<-ifelse(missing(Sort.By.Missingness), TRUE, Sort.By.Missingness)
-    print("'Sort.By.Missingness' has defaulted to TRUE", (Sort.By.Missingness))
- }
 
-    
-    ##TODO: Allow for groups to be passed as facets into this plot
+  
+  ## Let's verify packages exists
+  if (("dplyr" %in% installed.packages())==F)
+    warning("'dplyr' package not found", call. = FALSE)
+  
+  if (("tidyr" %in% installed.packages())==F)
+    warning("'tidyr' package not found", call. = FALSE)
+  
+  if (("ggplot2" %in% installed.packages())==F) 
+    warning("'ggplot2' package not found", call. = FALSE)
+  
+  if (("parallel" %in% installed.packages())==F) 
+    warning("'parallel' package not found", call. = FALSE)
+  
+  ## Lets make sure that tidyr is up to date
+  if ((exists('pivot_longer', where='package:tidyr', mode='function'))==FALSE
+      ) warning("tidyr is out of date, please update to version 1.0+", call. = FALSE)
+  
+  
+  if (missing(df)) warning("`df` is missing", call. = FALSE)
+  if (!is.data.frame(df)) warning("`df` class is not data.frame", call. = FALSE)
+  
+
+    ##TODO: Allow for grouped variables to be based as facets
     
     df %>%
       parallel::mclapply(., function(y) sum(is.na(y))/length(y) ) %>% 
@@ -101,8 +99,10 @@ print("loaded: tableNA -- wraper for table(is.na(x))")
 
 
 ###### A unique in unique list table summary of table(unique(x) %in% unique(y))
-TableUniqueInUnique <- function(x, y) {
-  table(unique(x) %in% unique(y))
+TableUniqueInUnique <- function(x, y, Invert=FALSE) {
+  
+  if (Invert==FALSE) table(unique(x) %in% unique(y))
+  if (Invert==TRUE) table(unique(y) %in% unique(x))
 }
 print("loaded: TableUniqueInUnique -- checks unique values within a list of unique values ")
 
