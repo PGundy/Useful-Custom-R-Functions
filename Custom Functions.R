@@ -26,7 +26,7 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
   
   ## Lets make sure that tidyr is up to date
   if ((exists('pivot_longer', where='package:tidyr', mode='function'))==FALSE
-      ) warning("tidyr is out of date, please update to version 1.0+", call. = FALSE)
+      ) warning("'tidyr' is out of date, please update to version 1.0+", call. = FALSE)
   
   
   if (missing(df)) warning("`df` is missing", call. = FALSE)
@@ -45,12 +45,10 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
       dplyr::mutate(Org.Order=row_number()) %>%
       #This statement is assuming TRUE which drops 0% NA vars or keeps them if FALSE
       dplyr::filter(if(Filter.NAs.Out){ Percent.of.NAs>0
-                    }else{ !is.na(Percent.of.NAs)
-                        } ) %>%
+                    }else{ !is.na(Percent.of.NAs) } ) %>%
       ggplot2::ggplot(data=.,
                       aes(if(Sort.By.Missingness){ x=reorder(Variable, -Percent.of.NAs)
-                      }else{ x=reorder(Variable, -Org.Order)
-                          },
+                          }else{ x=reorder(Variable, -Org.Order) },
                           y=Percent.of.NAs,
                           fill=Percent.of.NAs)) +
       ggplot2::geom_bar(stat="identity") +
@@ -100,7 +98,6 @@ print("loaded: tableNA -- wraper for table(is.na(x))")
 
 ###### A unique in unique list table summary of table(unique(x) %in% unique(y))
 TableUniqueInUnique <- function(x, y, Invert=FALSE) {
-  
   if (Invert==FALSE) table(unique(x) %in% unique(y))
   if (Invert==TRUE) table(unique(y) %in% unique(x))
 }
