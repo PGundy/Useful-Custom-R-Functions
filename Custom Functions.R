@@ -2,7 +2,50 @@
 # Custom Functions --------------------------------------------------------
 
 
-# plotMissingness ----------------------------------------------------------------------
+#org.df.names<-names(df)
+
+
+
+####### colNamesCleaner
+colNamesCleaner<- function(df) {
+  
+  ##The goal of this is to automate column name cleaning
+  
+  #Example<-airquality %>% mutate('Easy Example Test'="1", 'Medium..example   Test'="2", 'Hard exampleTEST'="3", 'Truly HARD TestCase  PST'="4", AnotherTESTof5FT2In="5", AnotherTESTof5FTT2In="6", ExampleOf1CommonProblem="7" )
+  #colNamesCleaner(Example)
+  
+  
+  
+  
+  if (("stringr" %in% installed.packages())==F)
+    warning("'string' package not found", call. = FALSE)
+  
+  if(!is.data.frame(df)) warning("The object is not a data frame", call. = F)
+  
+  names(df)<-make.unique(names(df))
+  names(df)<-stringr::str_replace_all(names(df), "[[:punct:]]", " ")
+  names(df)<-stringr::str_replace_all(names(df),
+            ## splits on the following cases... (unforunately must be 1 statement)
+            ## (1) IF 1 (lower or digit) and next upper THEN insert space b/w
+            ## (2) IF 2 or more upper until next lower THEN insert space b/w
+            ## (3) IF digit then insert space
+            ## (4) IF 1 or more lower until digit then insert space b/w
+"(([[:lower:]]|[[:digit:]]){1}(?=[[:upper:]])|[[:upper:]]{2,}(?=([[:lower:]]|[[:digit:]]))|([[:lower:]]){1,}(?=[[:digit:]]))",
+              "\\1 ")
+  
+  names(df)<-stringr::str_replace_all(names(df), "\\s{1,}", ".")
+  
+  names(df)
+  
+}
+
+
+
+
+
+
+
+####### plotMissingness -- Automatically plot the percentage of NAs per column
 plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
   
   ##The Filter.NAs.Out==TRUE it removes variables with 0 NAs
@@ -47,7 +90,7 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
       dplyr::filter(if(Filter.NAs.Out){ Percent.of.NAs>0
                     }else{ !is.na(Percent.of.NAs) } ) %>%
       ggplot2::ggplot(data=.,
-                      aes(if(Sort.By.Missingness){ x=reorder(Variable, -Percent.of.NAs)
+              ggplot2::aes(if(Sort.By.Missingness){ x=reorder(Variable, -Percent.of.NAs)
                           }else{ x=reorder(Variable, -Org.Order) },
                           y=Percent.of.NAs,
                           fill=Percent.of.NAs)) +
@@ -58,7 +101,8 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
                                   breaks=seq(0, 1, 0.2),
                                   limits = c(0,1.19)) +
       ggplot2::labs(title="Data Missingness, Percentage", x="Variables") +
-      ggplot2::geom_text(aes(label=paste0(Percent.of.NAs*100, "%")), hjust=-0.25) +
+      ggplot2::geom_text(ggplot2::aes(label=paste0(Percent.of.NAs*100, "%")),
+                         hjust=-0.25) +
       ggplot2::coord_flip()
   } # plots % of missing information in each column
 print("lodaded: plotMissingness")
