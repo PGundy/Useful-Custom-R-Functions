@@ -119,6 +119,7 @@ ifelseC <- function(cond, yes, no) {
 print("loaded: ifelseC -- maintains variable class through ifelse")
 
 
+
 ###### Fill NA function that respects date class
 fillNA <- function(x) { # repeats the last non NA value. Keeps leading NA
   #NOTE -- tidyr has the fill command which is faster, but this keeps date class
@@ -131,6 +132,15 @@ fillNA <- function(x) { # repeats the last non NA value. Keeps leading NA
   ))
 }
 print("loaded: fillNA -- fills NA down maintaining variable class")
+
+
+
+###### Combination of table(is.na(x))
+tableRAW <- function(x) {
+  table(paste0(x)) #observe the buckets of a vector including NAs
+}
+print("loaded: tableRAW -- wraper for table(paste0(x))")
+
 
 
 ###### Combination of table(is.na(x))
