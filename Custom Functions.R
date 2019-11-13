@@ -16,7 +16,6 @@ colNamesCleaner<- function(df) {
   
   
   
-  
   if (("stringr" %in% installed.packages())==F)
     warning("'string' package not found", call. = FALSE)
   
@@ -34,7 +33,6 @@ colNamesCleaner<- function(df) {
               "\\1 ")
   
   names(df)<-stringr::str_replace_all(names(df), "\\s{1,}", ".")
-  
   names(df)
   
 }
@@ -51,7 +49,7 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
   ##The Filter.NAs.Out==TRUE it removes variables with 0 NAs
   
   ## For an example of this function's output try using base R data:
-  ##  airquality %>% mutate(Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plotMissingness(., FALSE)
+  ##  airquality %>% mutate(New.Ex=NA, New.EX2=NA, Example.NA1=ifelse((Month%/%5)==1, NA, Month), Example.NA2=ifelse((Ozone%/%18)==1, NA, Month)) %>% plotMissingness(., FALSE)
 
   
   ## Let's verify packages exists
@@ -86,6 +84,9 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
                           names_to = "Variable",
                           values_to = "Percent.of.NAs" ) %>% 
       dplyr::mutate(Org.Order=row_number()) %>%
+      
+      ##TODO: Add piece on soreting tied NA percentages in alphabetic order
+      
       #This statement is assuming TRUE which drops 0% NA vars or keeps them if FALSE
       dplyr::filter(if(Filter.NAs.Out){ Percent.of.NAs>0
                     }else{ !is.na(Percent.of.NAs) } ) %>%
@@ -152,8 +153,9 @@ print("loaded: tableNA -- wraper for table(is.na(x))")
 
 ###### A unique in unique list table summary of table(unique(x) %in% unique(y))
 TableUniqueInUnique <- function(x, y, Invert=FALSE) {
-  if (Invert==FALSE) table(unique(x) %in% unique(y))
-  if (Invert==TRUE) table(unique(y) %in% unique(x))
+  table(unique(x) %in% unique(y))
+  #if (!Invert) table(unique(x) %in% unique(y))
+  #else (Invert==TRUE) table(unique(y) %in% unique(x))
 }
 print("loaded: TableUniqueInUnique -- checks unique values within a list of unique values ")
 
