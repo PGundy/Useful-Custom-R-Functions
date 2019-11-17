@@ -84,6 +84,8 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
                           names_to = "Variable",
                           values_to = "Percent.of.NAs" ) %>% 
       dplyr::mutate(Org.Order=row_number()) %>%
+      dplyr::arrange(., desc(Percent.of.NAs), desc(Variable)) %>% 
+      dplyr::mutate(Missingness.Order=row_number()) %>% 
       
       ##TODO: Add piece on soreting tied NA percentages in alphabetic order
       
@@ -91,8 +93,9 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
       dplyr::filter(if(Filter.NAs.Out){ Percent.of.NAs>0
                     }else{ !is.na(Percent.of.NAs) } ) %>%
       ggplot2::ggplot(data=.,
-              ggplot2::aes(if(Sort.By.Missingness){ x=reorder(Variable, -Percent.of.NAs)
-                          }else{ x=reorder(Variable, -Org.Order) },
+              ggplot2::aes(if(Sort.By.Missingness){ 
+                                 x=reorder(Variable, Missingness.Order)
+                          }else{ x=reorder(Variable, Org.Order) },
                           y=Percent.of.NAs,
                           fill=Percent.of.NAs)) +
       ggplot2::geom_bar(stat="identity") +
@@ -151,13 +154,14 @@ tableNA <- function(x) {
 print("loaded: tableNA -- wraper for table(is.na(x))")
 
 
+
 ###### A unique in unique list table summary of table(unique(x) %in% unique(y))
 TableUniqueInUnique <- function(x, y, Invert=FALSE) {
-  table(unique(x) %in% unique(y))
-  #if (!Invert) table(unique(x) %in% unique(y))
-  #else (Invert==TRUE) table(unique(y) %in% unique(x))
+  if (!Invert) table(unique(x) %in% unique(y))
+  else table(unique(y) %in% unique(x))
 }
 print("loaded: TableUniqueInUnique -- checks unique values within a list of unique values ")
+
 
 
 ###### A percentage version of table(x)
@@ -165,6 +169,7 @@ tablePerc <- function(x){
   round(prop.table(table(x))*100, 2) #A % breakdown of a table
 }
 print("loaded: tablePerc - table() using percentages")
+
 
 
 ###### inverted str_subset - remove anything containing the pattern
@@ -185,7 +190,7 @@ fwrite.DF.to.csv.as.char <- function(DF, file.path.and.file.name){
                "has been saved here:",                        # 
                paste0("[", file.path.and.file.name, "]") ))   #file.path.and.file.name
 }
-print("loaded: fwrite.DF.to.csv.as.char -- ungroup(), as.character(), and export as csv")
+print("loaded: fwrite.DF.to.csv.as.char -- ungroup, as.character, and export as csv")
 
 
 
