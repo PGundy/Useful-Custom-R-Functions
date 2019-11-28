@@ -31,7 +31,6 @@ colNamesCleaner<- function(df) {
             ## (4) IF 1 or more lower until digit then insert space b/w
 "(([[:lower:]]|[[:digit:]]){1}(?=[[:upper:]])|[[:upper:]]{2,}(?=([[:lower:]]|[[:digit:]]))|([[:lower:]]){1,}(?=[[:digit:]]))",
               "\\1 ")
-  
   names(df)<-stringr::str_replace_all(names(df), "\\s{1,}", ".")
   names(df)
   
@@ -157,7 +156,7 @@ print("loaded: tableNA -- wraper for table(is.na(x))")
 
 ###### A unique in unique list table summary of table(unique(x) %in% unique(y))
 TableUniqueInUnique <- function(x, y, Invert=FALSE) {
-  if (!Invert) table(unique(x) %in% unique(y))
+  if (Invert==FALSE) table(unique(x) %in% unique(y))
   else table(unique(y) %in% unique(x))
 }
 print("loaded: TableUniqueInUnique -- checks unique values within a list of unique values ")
