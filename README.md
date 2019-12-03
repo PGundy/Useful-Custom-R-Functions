@@ -6,6 +6,8 @@
 
 # Custom Functions ---------------------------------
 
+###### colNamesCleaner - Auto cleans variable names into homogenous format
+
 ###### plotMissingness - Plot the percantage of NAs for all vectors in a data frame
 
 ###### IfelseC - Fix to Preserve Class
