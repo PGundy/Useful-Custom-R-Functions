@@ -192,6 +192,13 @@ fwrite.DF.to.csv.as.char <- function(DF, file.path.and.file.name){
 print("loaded: fwrite.DF.to.csv.as.char -- ungroup, as.character, and export as csv")
 
 
+###### list.collapse
+list.collapse <- function(VECTOR){
+  as.character(list(sort(unique(VECTOR))))
+}
+print("loaded: list.collapse -- Collapse a list into whatever string is containted")
+
+
 
 
 
