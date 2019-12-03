@@ -35,7 +35,7 @@ colNamesCleaner<- function(df) {
   names(df)
   
 }
-
+print("loaded: colNamesCleaner -- strips and cleans colnames from a data.frame")
 
 
 
@@ -108,7 +108,7 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
                          hjust=-0.25) +
       ggplot2::coord_flip()
   } # plots % of missing information in each column
-print("lodaded: plotMissingness")
+print("lodaded: plotMissingness -- plots missing vectors from a data.frame() object")
 
 
 
