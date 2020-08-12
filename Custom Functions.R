@@ -193,8 +193,49 @@ print("loaded: fwrite.DF.to.csv.as.char -- ungroup, as.character, and export as 
 
 
 ###### list.collapse
-list.collapse <- function(VECTOR){
-  as.character(list(sort(unique(VECTOR))))
+list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
+  
+  ## Assigning defaults!
+  Sort<-ifelse(missing(Sort), FALSE, Sort)
+  Clean<-ifelse(missing(Clean), FALSE, Clean)
+  
+  
+  ## IF both arguments are FALSE -- DEFAULT SETTING
+  if (Sort==FALSE & Clean==FALSE){
+    VECTOR<-as.character(list(unique(VECTOR)))
+    print("List collapsed - basic")
+  }
+  
+  ## IF Sort==TRUE & Clean==FALSE
+  if (Sort==TRUE & Clean==FALSE){
+    VECTOR<-paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR)))),
+                      sort(unique(VECTOR)), 
+                      sep=" - ") ))
+    print("List collapsed - Sorted")
+  }
+  
+  ## IF Sort=FALSE & Clean=TRUE
+  if (Sort==FALSE & Clean==TRUE){
+    VECTOR<-gsub("^c|\\(|\\)|\\\"",    ## Replace these REGEX with nothing
+                 "",
+                 paste(list( paste(as.numeric(factor(unique(VECTOR),
+                                                     levels = unique(VECTOR) )),
+                                   unique(VECTOR), 
+                                   sep=" - ") )) )
+    print("List collapsed - Cleaned")
+         }
+  
+  ## IF Sort=TRUE & Clean=TRUE
+  if (Sort==TRUE & Clean==TRUE){
+    VECTOR<-gsub("^c|\\(|\\)|\\\"",    ## Replace these REGEX with nothing
+                 "",
+                 paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR)))),
+                                   sort(unique(VECTOR)), 
+                                   sep=" - ") )) )
+    print("List collapsed - Sorted & Cleaned")
+  }
+  
+  return(VECTOR)
 }
 print("loaded: list.collapse -- Collapse a list into whatever string is containted")
 
