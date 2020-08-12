@@ -202,7 +202,7 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
   
   ## IF both arguments are FALSE -- DEFAULT SETTING
   if (Sort==FALSE & Clean==FALSE){
-    VECTOR<-as.character(list(unique(VECTOR)))
+    VECTOR<-as.character(list(paste(unique(VECTOR))))
     print("List collapsed - basic")
   }
   
