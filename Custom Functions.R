@@ -203,7 +203,7 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
   ## IF both arguments are FALSE -- DEFAULT SETTING
   if (Sort==FALSE & Clean==FALSE){
     VECTOR<-as.character(list(paste(unique(VECTOR))))
-    print("List collapsed - basic")
+    #print("List collapsed - basic")
   }
   
   ## IF Sort==TRUE & Clean==FALSE
@@ -211,7 +211,7 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
     VECTOR<-paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR)))),
                       sort(unique(VECTOR)), 
                       sep=" - ") ))
-    print("List collapsed - Sorted")
+    #print("List collapsed - Sorted")
   }
   
   ## IF Sort=FALSE & Clean=TRUE
@@ -222,7 +222,7 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
                                                      levels = unique(VECTOR) )),
                                    unique(VECTOR), 
                                    sep=" - ") )) )
-    print("List collapsed - Cleaned")
+    #print("List collapsed - Cleaned")
          }
   
   ## IF Sort=TRUE & Clean=TRUE
@@ -232,7 +232,7 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
                  paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR)))),
                                    sort(unique(VECTOR)), 
                                    sep=" - ") )) )
-    print("List collapsed - Sorted & Cleaned")
+    #print("List collapsed - Sorted & Cleaned")
   }
   
   return(VECTOR)
