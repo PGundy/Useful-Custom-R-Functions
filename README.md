@@ -6,21 +6,26 @@
 
 # Custom Functions ---------------------------------
 
-###### colNamesCleaner - Auto cleans variable names into homogenous format
+##### colNamesCleaner -- strips and cleans colnames from a data.frame
 
-###### plotMissingness - Plot the percantage of NAs for all vectors in a data frame
+##### plotMissingness -- plots missing vectors from a data.frame() object
 
-###### IfelseC - Fix to Preserve Class
+##### ifelseC -- maintains variable class through ifelse
 
-###### FillNA - A function that respects date class
+##### fillNA -- fills NA down maintaining variable class
 
-###### TableNA - Combination of table(is.na(x))
+##### tableRAW -- wraper for table(paste0(x))
 
-###### TableUniqueInUnique - A unique %in% unique list table summary of table(unique(x) %in% unique(y))
+##### tableNA -- wraper for table(is.na(x))
 
-###### tablePerc - table(x) that displays as percentages
+##### TableUniqueInUnique -- checks unique values within a list of unique values 
 
-###### str_subset_inv - remove anything containing the pattern
+##### tablePerc - table() using percentages
 
-###### fwrite.DF.to.csv.as.char - ungroup, mutate all to strings, save to csv
+##### str_subset_inv -- removes things with matching pattern
+
+##### fwrite.DF.to.csv.as.char -- ungroup, as.character, and export as csv
+
+##### list.collapse -- Collapse a list into whatever string is containted
+
 
