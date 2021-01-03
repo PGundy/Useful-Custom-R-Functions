@@ -1,11 +1,6 @@
 
 # Custom Functions --------------------------------------------------------
 
-
-#org.df.names<-names(df)
-
-
-
 ####### colNamesCleaner
 colNamesCleaner<- function(df) {
   
@@ -32,6 +27,7 @@ colNamesCleaner<- function(df) {
 "(([[:lower:]]|[[:digit:]]){1}(?=[[:upper:]])|[[:upper:]]{2,}(?=([[:lower:]]|[[:digit:]]))|([[:lower:]]){1,}(?=[[:digit:]]))",
               "\\1 ")
   names(df)<-stringr::str_replace_all(names(df), "\\s{1,}", ".")
+  names(df)<-stringr::str_remove(names(df), "^\\.|\\.$")
   names(df)
   
 }
