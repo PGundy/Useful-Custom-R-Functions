@@ -188,6 +188,7 @@ fwrite.DF.to.csv.as.char <- function(DF, file.path.and.file.name){
 print("loaded: fwrite.DF.to.csv.as.char -- ungroup, as.character, and export as csv")
 
 
+                         
 ###### list.collapse
 list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
   
@@ -235,7 +236,11 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
 }
 print("loaded: list.collapse -- Collapse a list into whatever string is containted")
 
-
+                         
+                         
+##### 
+clipboard <- function(x){write.table(x, paste0("clipboard-", object.size(x)), sep="\t", row.names=FALSE)}
+print("loaded: clipboad -- write data to clipboard")
 
 
 
