@@ -205,15 +205,15 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
   
   ## IF Sort==TRUE & Clean==FALSE
   if (Sort==TRUE & Clean==FALSE){
-    VECTOR<-paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR)))),
-                      sort(unique(VECTOR)), 
+    VECTOR<-paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR), na.last=TRUE))),
+                      sort(unique(VECTOR), na.last=TRUE), 
                       sep=" - ") ))
     #print("List collapsed - Sorted")
   }
   
   ## IF Sort=FALSE & Clean=TRUE
   if (Sort==FALSE & Clean==TRUE){
-    VECTOR<-gsub("^c|\\(|\\)|\\\"",    ## Replace these REGEX with nothing
+    VECTOR<-gsub("^c\\(|\\(|\\)|\\\"",    ## Replace these REGEX with nothing
                  "",
                  paste(list( paste(as.numeric(factor(unique(VECTOR),
                                                      levels = unique(VECTOR) )),
@@ -224,13 +224,16 @@ list.collapse <- function(VECTOR, Sort=FALSE, Clean=FALSE){
   
   ## IF Sort=TRUE & Clean=TRUE
   if (Sort==TRUE & Clean==TRUE){
-    VECTOR<-gsub("^c|\\(|\\)|\\\"",    ## Replace these REGEX with nothing
+    VECTOR<-gsub("^c\\(|\\(|\\)|\\\"",    ## Replace these REGEX with nothing
                  "",
-                 paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR)))),
-                                   sort(unique(VECTOR)), 
+                 paste(list( paste(as.numeric(as.factor(sort(unique(VECTOR), na.last=TRUE))),
+                                   sort(unique(VECTOR), na.last=TRUE), 
                                    sep=" - ") )) )
     #print("List collapsed - Sorted & Cleaned")
   }
+  
+  ### Remove any `character(0)` entries
+  VECTOR <- gsub("character\\(0\\)|character0|NA\\s\\-\\sNA", "NAs Found", VECTOR)
   
   return(VECTOR)
 }
