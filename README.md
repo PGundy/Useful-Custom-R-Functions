@@ -28,4 +28,6 @@
 
 ##### list.collapse -- Collapse a list into whatever string is containted
 
+##### clipboad -- write data to clipboard
+
 
