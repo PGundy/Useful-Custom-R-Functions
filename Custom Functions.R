@@ -252,8 +252,8 @@ print("loaded: clipboad -- write data to clipboard")
 
 
 
-Function.File <- (function() { attr(body(sys.function()), "srcfile")})()$filename
-Function.File
-
-print(paste("All functions loaded from:", Function.File))
+### Function.File <- (function() { attr(body(sys.function()), "srcfile")})()$filename
+### Function.File
+### 
+### print(paste("All functions loaded from:", Function.File))
 
