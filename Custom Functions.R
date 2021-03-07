@@ -35,8 +35,27 @@ print("loaded: colNamesCleaner -- strips and cleans colnames from a data.frame")
 
 
 
+####### rename_at_EXPORT -- rename_at() wrapper to replace "\\_|\\." with " " for col names
+rename_at_EXPORT<-function(df, Input.RegEx=NA_character_, Replacement.Value=NA_character_){
+  
+  if (("stringr" %in% installed.packages())==F) warning("'string' package not found", call. = FALSE)
+  if (("dplyr" %in% installed.packages())==F) warning("'dplyr' package not found", call. = FALSE)
+  
+  ## Now this expects a data.frame to be provided, & then alters all the column names
+  ## Default action replacing "_" or "." with spaces
+  ## Alternatively a different regular expression OR replacement value
+  
+  df %>% 
+    dplyr::rename_at(dplyr::vars(tidyr::everything()), 
+                     stringr::str_replace_all, 
+                     if(is.na(Input.RegEx)) "\\_|\\." else as.character(Input.RegEx),
+                     if(is.na(Replacement.Value)) " " else as.character(Replacement.Value) )
+  
+}
+print("loaded: rename_at_EXPORT -- rename_at() wrapper to replace '\\_|\\.' with ' ' for col names")
 
-
+ 
+                     
 
 ####### plotMissingness -- Automatically plot the percentage of NAs per column
 plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
