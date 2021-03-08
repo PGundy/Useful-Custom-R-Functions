@@ -8,6 +8,8 @@
 
 ##### colNamesCleaner -- strips and cleans colnames from a data.frame
 
+####### rename_at_EXPORT -- rename_at() wrapper to replace "\\_|\\." with " " for col names
+
 ##### plotMissingness -- plots missing vectors from a data.frame() object
 
 ##### ifelseC -- maintains variable class through ifelse
