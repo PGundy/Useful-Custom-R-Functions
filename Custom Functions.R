@@ -260,11 +260,20 @@ print("loaded: list.collapse -- Collapse a list into whatever string is containt
 
                          
                          
-##### 
+##### clipboard
 clipboard <- function(x){write.table(x, paste0("clipboard-", object.size(x)), sep="\t", row.names=FALSE)}
 print("loaded: clipboad -- write data to clipboard")
 
 
+##### convertToYearMonth
+convertToYearMonth<-function(date.vector){
+  
+  if (!is.Date(date(date.vector))){ stop("Input must be date class.")}
+  ymd(paste(year(date.vector), month(date.vector), "01", sep="-"))
+  
+}
+print("loaded convertToYearMonth -- Converts a date vector into YYYY-MM-01 for quick plotting")
+                         
 
 # ************** ----------------------------------------------------------------
 # * Finished Command ----------------------------------------------------------------
