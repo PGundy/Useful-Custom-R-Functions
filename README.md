@@ -32,4 +32,6 @@
 
 ##### clipboad -- write data to clipboard
 
+##### convertToYearMonth -- Converts a date vector into YYYY-MM-01 for quick plotting
+
 
