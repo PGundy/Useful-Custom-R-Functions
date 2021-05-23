@@ -123,7 +123,7 @@ plotMissingness<- function(df, Filter.NAs.Out=TRUE, Sort.By.Missingness=TRUE) {
                          hjust=-0.25) +
       ggplot2::coord_flip()
   } # plots % of missing information in each column
-print("lodaded: plotMissingness -- plots missing vectors from a data.frame() object")
+print("loaded: plotMissingness -- plots missing vectors from a data.frame() object")
 
 
 
@@ -272,7 +272,7 @@ convertToYearMonth<-function(date.vector){
   ymd(paste(year(date.vector), month(date.vector), "01", sep="-"))
   
 }
-print("loaded convertToYearMonth -- Converts a date vector into YYYY-MM-01 for quick plotting")
+print("loaded: convertToYearMonth -- Converts a date vector into YYYY-MM-01 for quick plotting")
                          
 
 # ************** ----------------------------------------------------------------
